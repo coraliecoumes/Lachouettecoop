@@ -13,11 +13,11 @@ import locale
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 import markdown
 
-connection = psycopg2.connect(user = "...",
-                                  password = "...",
-                                  host = "127.0.0.1",
+connection = psycopg2.connect(user = "zrbozsvqfbrcdt",
+                                  password = "de9419a3f64fd95641ae2e39520aff3a94856b570c52001a006749491bb4a533",
+                                  host = "ec2-52-31-233-101.eu-west-1.compute.amazonaws.com",
                                   port = "5432",
-                                  database = "dbLCC")
+                                  database = "d9j15pr19806g7")
 
 ####changement des marges et couleur des écritures et fond####
 COLOR = "black"
@@ -304,13 +304,9 @@ elif pages == 'Fournisseurs' :
             grid_row_start=1,
             grid_row_end=6,
         ).markdown('![alt text](https://github.com/coraliecoumes/Lachouettecoop/blob/master/Sac_prov.png?raw=true)')
-        #grid.cell("b", 2, 6, 1, 2).markdown('#'+ choix_fournisseur)
         grid.cell("b", 3, 6, 1, 2).markdown('<p align="center"><font size="20"><b>' + choix_fournisseur + '</b></font> ')
-        #grid.cell("c", 2, 6, 2, 3).text(email)
         grid.cell("c", 3, 6, 2, 3).markdown('<p align="center"><font size="3">' + email + '</font> ')
-        #grid.cell("d", 2, 6, 3, 4).text(telephone)
         grid.cell("d", 3, 6, 3, 4).markdown('<p align="center"><font size="3">' + telephone + '</font> ')
-        #grid.cell("e", 2, 6, 4, 5).text(mobile)
         grid.cell("e", 3, 6, 4, 5).markdown('<p align="center"><font size="3">' + mobile + '</font> ')
         grid.cell("f", 6, 8, 1, 6).markdown('![alt text](https://github.com/coraliecoumes/Lachouettecoop/blob/master/Dame_chariot.png?raw=true)')
 
@@ -369,10 +365,8 @@ elif pages == 'Fournisseurs' :
     fourn_stock_global = fourn_stock_global[fourn_stock_global['Stock'] != 'non renseigné']
     fourn_stock_global['id'] = fourn_stock_global['id'].astype(str)
     # on ne garde que les produit ayant un stock < à 8
-    stock_bas = fourn_stock_global[fourn_stock_global['Stock'] < 8]
-    stock_bas.sort_values(by='Stock', ascending=False, inplace=True)
-
-
+    #stock_bas = fourn_stock_global[fourn_stock_global['Stock'] < 8]
+    #stock_bas.sort_values(by='Stock', ascending=False, inplace=True)
 
     # graphique des stock <8
     if not (fourn_stock_global[(fourn_stock_global['Stock'] < 8) & (fourn_stock_global['Stock'] > 0)].empty) :
@@ -475,7 +469,7 @@ elif pages == 'Fournisseurs' :
             , connection)
 
     # date il y a 60 jours, pour le graphique stocks
-    mois_passe = datetime.now() - timedelta(days=60)
+    mois_passe = datetime.now() - timedelta(days=90)
 
     if not(df_produit.empty) :
         df_produit.set_index('date_vente', inplace=True)
@@ -670,10 +664,10 @@ elif pages == 'Fournisseurs' :
     fig = make_subplots(rows=3, cols=2,subplot_titles=("Commandes par années", "Stocks et ventes des 60 derniers jours", "Ventes par jour du mois", "Commandes et ventes par mois", "Evolution du prix unitaire", "Commandes par semaines"))
 
     #Graph1 ###Commande par années
-    fig.add_trace(go.Bar(name='Quantité reçue', x=df_achats_pr_annee['Années'],
+    fig.add_trace(go.Bar(name='Commandes', x=df_achats_pr_annee['Années'],
                          y=df_achats_pr_annee['Quantité recue'],
                          text=round(df_achats_pr_annee['Quantité recue']),
-                         textposition='auto',showlegend= False,marker_color='#3D9970'),
+                         textposition='auto',showlegend= True,marker_color='#3D9970'),
                   row=1, col=1)
     fig.update_xaxes(title_text="Années", row=1, col=1)
     fig.update_yaxes(title_text="Quantité", row=1, col=1)
@@ -723,9 +717,9 @@ elif pages == 'Fournisseurs' :
 
     #Graph 4
     fig.add_trace(go.Bar(name='Commande',
-                         x=df_achats_pr_mois.loc[df_achats_pr_mois['Années'] == choix_annee]['Mois'],
-                         y=df_achats_pr_mois.loc[df_achats_pr_mois['Années'] == choix_annee]['Quantité recue'],
-                         text=round(df_achats_pr_mois.loc[df_achats_pr_mois['Années'] == choix_annee]['Quantité recue']),
+                         x=df_achats_pr_mois.loc[df_achats_pr_mois['Années'] == str(choix_annee)]['Mois'],
+                         y=df_achats_pr_mois.loc[df_achats_pr_mois['Années'] == str(choix_annee)]['Quantité recue'],
+                         text=round(df_achats_pr_mois.loc[df_achats_pr_mois['Années'] == str(choix_annee)]['Quantité recue']),
                          textposition = 'auto',
                          showlegend= False,
                          marker_color='#3D9970'),row=2, col=2)
@@ -744,9 +738,9 @@ elif pages == 'Fournisseurs' :
 
     #Graph 6 ####Commande par semaines
     fig.add_trace(go.Bar(name='Commande facturée',
-                         x=df_achats_pr_semaine.loc[df_achats_pr_semaine['Années'] == choix_annee]['Semaines'],
-                         y=df_achats_pr_semaine.loc[df_achats_pr_semaine['Années'] == choix_annee]['Quantité recue'],
-                         text=round(df_achats_pr_semaine.loc[df_achats_pr_semaine['Années'] == choix_annee]['Quantité recue']),
+                         x=df_achats_pr_semaine.loc[df_achats_pr_semaine['Années'] == str(choix_annee)]['Semaines'],
+                         y=df_achats_pr_semaine.loc[df_achats_pr_semaine['Années'] == str(choix_annee)]['Quantité recue'],
+                         text=round(df_achats_pr_semaine.loc[df_achats_pr_semaine['Années'] == str(choix_annee)]['Quantité recue']),
                          textposition='auto',showlegend= False,
                          marker_color='#3D9970'),row=3, col=2)
     fig.update_xaxes(title_text="Semaines", row=3, col=2)
@@ -754,7 +748,20 @@ elif pages == 'Fournisseurs' :
 
     #style du subplot
     fig.update_layout(height=900, width=1000,
-                title_text=choix_produit, title_x = 0.5, title_font_size = 25, showlegend= True, plot_bgcolor='rgb(249,249,249)', paper_bgcolor='rgb(249,249,249)')
+                title_text=choix_produit, title_x = 0.5, title_font_size = 25, showlegend= True, plot_bgcolor='rgb(249,249,249)', paper_bgcolor='rgb(249,249,249)',
+                      legend=dict(
+                          x=1.02,
+                          y=1.02,
+                          traceorder="normal",
+                          font=dict(
+                              size=12,
+                              color="black"
+                          ),
+                          bgcolor="#F0F2F6",
+                          bordercolor="#7f7f7f",
+                          borderwidth=1.5
+                      )
+                      )
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='#B10DC9',linewidth=2, linecolor='#B10DC9')
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='#B10DC9',linewidth=2, linecolor='#B10DC9')
     if not annee.empty :
