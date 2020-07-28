@@ -10,7 +10,7 @@ from typing import List, Optional
 from datetime import datetime
 from datetime import timedelta
 import locale
-locale.setlocale(locale.LC_ALL, 'fr_FR.utf8')
+locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 import markdown
 
 connection = psycopg2.connect(user = "zrbozsvqfbrcdt",
