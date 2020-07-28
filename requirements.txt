@@ -7,7 +7,7 @@ Send2Trash==1.5.0
 appnope==0.1.0
 attrs==19.3.0
 backcall==0.2.0
-bleach=3.1.5
+bleach==3.1.5
 colorlover==0.3.0
 cufflinks==0.17.3
 cycler==0.10.0
@@ -28,7 +28,7 @@ matplotlib==3.2.2
 mistune==0.8.4
 nbconvert==5.6.1
 nbformat==5.0.7
-notebook=6.0.3
+notebook==6.0.3
 numpy==1.18.5
 packaging==20.4
 pandas==1.0.4
