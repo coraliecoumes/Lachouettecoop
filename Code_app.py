@@ -10,6 +10,8 @@ from typing import List, Optional
 from datetime import datetime
 from datetime import timedelta
 import locale
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 import markdown
 
