@@ -12,8 +12,8 @@ from datetime import timedelta
 import locale
 #export LC_ALL=C.UTF-8
 #export LANG=C.UTF-8
-heroku config:add LANG=fr_FR.utf8
-locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
+#heroku config:add LANG=fr_FR.utf8
+locale.setlocale(locale.LC_ALL, ('fr_FR','UTF-8'))
 import markdown
 
 connection = psycopg2.connect(user = "zrbozsvqfbrcdt",
